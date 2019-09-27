@@ -1,0 +1,13 @@
+# environment variable file(s)
+.env
+
+# git
+.git
+.gitignore
+
+# IDE
+.idea
+
+# npm
+node_modules
+*.log

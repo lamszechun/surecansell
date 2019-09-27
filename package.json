@@ -1,0 +1,16 @@
+{
+  "name": "surecansell",
+  "version": "0.0.0",
+  "description": "Group project for [TIC2601] Databases & Web Applications",
+  "main": "index.js",
+  "author": "Group 14",
+  "license": "MIT",
+  "dependencies": {
+    "ejs": "^2.7.1",
+    "express": "^4.17.1",
+    "pg": "^7.12.1"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.2"
+  }
+}
