@@ -6,7 +6,11 @@
 ## How to install
 1. Install `docker` by signing up at https://hub.docker.com/ and downloading the desktop client 
 2. Install `yarn` from https://yarnpkg.com
-3. Run the following command to build the containers:
+3. Create the env file by running:
+```
+touch .env
+```
+4. Run the following command to build the containers:
 ```
 docker-compose build
 ```
