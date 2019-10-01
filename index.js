@@ -1,12 +1,10 @@
-// import
 const express = require('express');
+const routes = require('./src/routes');
 
-// init our vars
 const app = express();
 
-// routes
-app.get('/', (req, res) => res.send('This is the index page'));
+app.set('views', '/app/src/views/');
+app.set('view engine', 'ejs');
+app.use('/', routes);
 
-
-// start our application server
 app.listen(3000, () => console.log('Server running on port 3000...'));
