@@ -1,16 +1,13 @@
 ### Contents:
 1. [How to install](#how-to-install)
 2. [Run Commands](#run-commands)
-3. [FAQ](#faq)
+3. [Troubleshooting](#troubleshooting)
+4. [FAQ](#faq)
 ---
 ## How to install
 1. Install `docker` by signing up at https://hub.docker.com/ and downloading the desktop client 
 2. Install `yarn` from https://yarnpkg.com
-3. Create the env file by running:
-```
-touch .env
-```
-4. Run the following command to build the containers:
+3. Run the following command to build the containers:
 ```
 docker-compose build
 ```
@@ -34,6 +31,13 @@ docker-compose up -d
 - Rebuild & Start:
 ```
 docker-compose up --build
+```
+---
+## Troubleshooting
+- Database is outdated
+```
+docker-compose rm db
+docker-compose up
 ```
 ---
 ## FAQ
