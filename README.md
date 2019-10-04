@@ -1,8 +1,9 @@
 ### Contents:
 1. [How to install](#how-to-install)
 2. [Run Commands](#run-commands)
-3. [Troubleshooting](#troubleshooting)
-4. [FAQ](#faq)
+3. [Git Commands](#git-commands)
+4. [Troubleshooting](#troubleshooting)
+5. [FAQ](#faq)
 ---
 ## How to install
 1. Install `docker` by signing up at https://hub.docker.com/ and downloading the desktop client 
@@ -31,6 +32,24 @@ docker-compose up -d
 - Rebuild & Start:
 ```
 docker-compose up --build
+```
+---
+## Git Commands
+- Create a new branch before working
+```
+git checkout development
+git pull
+git checkout -b < insert branch name here >
+```
+- Adding your changes
+```
+git add -A
+git commit -m < description of changes >
+git push
+```
+- If the push has errors:
+```
+git push --set-upstream origin example_branch
 ```
 ---
 ## Troubleshooting
