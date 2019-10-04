@@ -13,7 +13,8 @@ Desktop.ini
 *~
 
 # environment variable file(s)
-.env
+# we're committing this in for simplicity, do NOT do this in production
+#.env
 
 # IDE
 .idea
