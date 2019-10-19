@@ -3,6 +3,5 @@ CREATE TABLE listing_comment(
     commented_at TIMESTAMP NOT NULL DEFAULT NOW(),
     comment VARCHAR(256) NOT NULL,
     listing_id INT references listing(id) NOT NULL,
-    lister_id INT REFERENCES user_accounts(id) NOT NULL,
-    CONSTRAINT valid_rating CHECK( rating >= 0 AND rating <= 5 )
+    lister_id INT REFERENCES user_accounts(id) NOT NULL
 );
