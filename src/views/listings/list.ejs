@@ -9,10 +9,10 @@
         <div class="container">
             <div class="row">
                 <% listings.forEach((listing) => { %>
-                        <div class="col">
+                        <div class="col col-sm-3">
                             <div class="card">
                                 <div class="card-body">
-                                    <img src="https://placekitten.com/g/200/200" alt="kitty" />
+                                    <img class="img-thumbnail" src="https://placekitten.com/g/200/200" alt="kitty" />
                                     <p>ID: <%= listing.id %></p>
                                     <p>Title: <%= listing.title %></p>
                                     <p>Description: <%= listing.description %></p>
