@@ -1,7 +1,9 @@
 const bcrypt = require('bcrypt');
 const crypto = require('crypto');
 const express = require('express');
+
 const db = require('../../db');
+const middleware = require('../middleware');
 
 let router = express.Router();
 
@@ -29,7 +31,7 @@ router.post('/sign-up', async function (request, response) {
     const salt = await bcrypt.genSalt(10);
     const hashed_password = await bcrypt.hash(password, salt);
 
-    const user_create_result = await db.one(
+    const result = await db.one(
         'INSERT INTO user_accounts' +
         '(first_name, last_name, phone_number, email, username, encrypted_password)' +
         'VALUES($1,$2,$3,$4,$5,$6)' +
@@ -37,8 +39,26 @@ router.post('/sign-up', async function (request, response) {
         [first_name, last_name, phone_number, email, username, hashed_password.toString()]
     );
 
-    console.log(user_create_result);
-    response.redirect('/sign-up/');
+    const user_id = result['id'];
+    const token = crypto.randomBytes(20).toString('hex');
+
+    await db.one(
+        'INSERT INTO user_access_tokens' +
+        '(value, user_id)' +
+        'VALUES($1,$2)' +
+        'RETURNING id',
+        [token, user_id]
+    );
+
+    response.cookie('access_token', token);
+    response.redirect('/listings/');
+});
+
+
+// Sign Up - Render the page with the form
+router.get('/check-login', middleware.signInRequired, async function(request, response){
+    console.log(response.locals.user_id);
+    response.render('homepage/home.ejs');
 });
 
 module.exports = router;
