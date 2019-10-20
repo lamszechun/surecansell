@@ -1,25 +1,31 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Search Listings Bookmarks</title>
+        <title>Showing Listings Bookmarks</title>
         <%- include('../header'); -%>
     </head>
     <body>
-        <div>Listings Bookmarks:</div>
+        <div>Showing Listings Bookmarks:</div>
+
         <div class="container">
-            <form method="post">
-                Review ID:<br>
-                <input type="text" name="review_id" ><br>
+            <div class="row">
+                <% listing_bookmarks.forEach((bookmark) => { %>
+                        <div class="col col-sm-3">
+                            <div class="card">
+                                <div class="card-body">
+
+                                    <img class="img-thumbnail" src="https://placekitten.com/g/200/200" alt="kitty" />
+                                    <p>Bookmark ID: <%= bookmark.bookmark_id %></p>
+                                    <p>Listing ID: <%= bookmark.listing_id %></p>
+                                    <p>User ID: <%= bookmark.user_id %></p>
+
+                                </div>
+                            </div>
+                        </div>
+                <% }) %>
                 
-                Listing ID:<br>
-                <input type="text" name="listing_id">
-
-                Reviewer ID:<br>
-                <input type="text" name="reviewer_id">
-
-                <input type="submit" value="Submit">
-            </form>
+            </div>
         </div>
-        </div>
+        
     </body>
 </html>
