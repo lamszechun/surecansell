@@ -5,24 +5,46 @@
         <%- include('../header'); -%>
     </head>
     <body>
-        <div>Create Review:</div>
         <div class="container">
-            <form method="post">
-                Review ID:<br>
-                <input type="text" name="review_id" ><br>
+                <br>
+                <div class="row">
+                    <div class="col col-md-10 offset-md-1 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <form method="post" class="needs-validation">
 
-                Time:<br>
-                <input type="text" name="time">
+                                    <div class="form-group">
+                                        <label for="listing_id">Review ID</label>
+                                        <input type="text" class="form-control" id="listing_id" name="listing_id" required />
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="user_id">User ID</label>
+                                        <input type="text" class="form-control" id="user_id" name="user_id" required />
+                                    </div>
 
-                Rating:<br>
-                <input type="text" name="rating">
+                                    <div class="form-group">
+                                        <label for="review_time">Time</label>
+                                        <input type="time" class="form-control" id="review_time" name="review_time" required />
+                                    </div>
 
-                Message:<br>
-                <input type="text" name="review_text">
+                                    <div class="form-group">
+                                        <label for="rating">Rating</label>
+                                        <input type="range" min = "0" max = "5" step = "1" class="form-control" id="rating" name="rating" required />
+                                    </div>
 
-                <input type="submit" value="Submit">
-            </form>
+                                    <div class="form-group">
+                                        <label for="review_text">Review Text</label>
+                                        <input type="text" class="form-control" id="review_text" name="review_text" required />
+                                    </div>
+
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
         </div>
-        </div>
+    
     </body>
 </html>
