@@ -10,15 +10,17 @@
             <div class="row">
                 <% listings.forEach((listing) => { %>
                         <div class="col col-sm-3">
-                            <div class="card">
-                                <div class="card-body">
-                                    <img class="img-thumbnail" src="https://placekitten.com/g/200/200" alt="kitty" />
-                                    <p>ID: <%= listing.id %></p>
-                                    <p>Title: <%= listing.title %></p>
-                                    <p>Description: <%= listing.description %></p>
-                                    <p>Seller: <%= listing.lister_id %></p>
+                            <a href="/listings/<%= listing.id %>/">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <img class="img-thumbnail" src="https://placekitten.com/g/200/200" alt="kitty" />
+                                        <p class="card-text">ID: <%= listing.id %></p>
+                                        <p>Title: <%= listing.title %></p>
+                                        <p>Description: <%= listing.description %></p>
+                                        <p>Seller: <%= listing.lister_id %></p>
+                                    </div>
                                 </div>
-                            </div>
+                            </a>
                         </div>
                 <% }) %>
             </div>
