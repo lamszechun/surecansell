@@ -5,8 +5,9 @@
         <%- include('../header'); -%>
     </head>
     <body>
-        <div>Listings:</div>
+        <%- include('../navbar'); %>
         <div class="container">
+            <div>Listings:</div>
             <div class="row">
                 <% listings.forEach((listing) => { %>
                         <div class="col col-sm-3">
