@@ -1,5 +1,8 @@
 const express = require('express');
+
 const db = require('../../db');
+const middleware = require('../middleware');
+
 let router = express.Router();
 
 // all URL paths are prefixed with '/listings'
@@ -11,12 +14,12 @@ router.get('/', async function(request, response){
 });
 
 // Render our Listings Creation page
-router.get('/create', async function(request, response){
+router.get('/create', middleware.signInRequired, async function(request, response){
     response.render('listings/create.ejs');
 });
 
 // Use the input from the form to create a new listing
-router.post('/create', async function(request, response){
+router.post('/create', middleware.signInRequired, async function(request, response){
     const data = request.body;
 
     const title = data['title'];
@@ -29,11 +32,10 @@ router.post('/create', async function(request, response){
         '(title, description, price_in_cents, condition, lister_id)' +
         'VALUES($1,$2,$3,$4,$5)' +
         'RETURNING id',
-        [title, description, price_in_cents, condition, 1]
+        [title, description, price_in_cents, condition, response.locals.user_id]
     );
 
-    console.log(result);
-    response.redirect('/listings/');
+    response.redirect('/my/listings/');
 });
 
 
