@@ -7,21 +7,30 @@
 <body>
 <%- include('../navbar'); %>
 <div class="container">
-    <div>My Listings:</div>
+    <div>
+        <span>My Listings:</span>
+        <a href="/listings/create/">
+            <button class="btn btn-primary btn-sm">+</button>
+        </a>
+    </div>
     <div class="row">
-        <% listings.forEach((listing) => { %>
-            <div class="col col-sm-3">
-                <div class="card">
-                    <div class="card-body">
-                        <img class="img-thumbnail" src="https://placekitten.com/g/200/200" alt="kitty" />
-                        <p>ID: <%= listing.id %></p>
-                        <p>Title: <%= listing.title %></p>
-                        <p>Description: <%= listing.description %></p>
-                        <p>Seller: <%= listing.lister_id %></p>
+        <% if(listings && listings.length > 0){ %>
+            <% listings.forEach((listing) => { %>
+                <div class="col col-sm-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <img class="img-thumbnail" src="https://placekitten.com/g/200/200" alt="kitty" />
+                            <p>ID: <%= listing.id %></p>
+                            <p>Title: <%= listing.title %></p>
+                            <p>Description: <%= listing.description %></p>
+                            <p>Seller: <%= listing.lister_id %></p>
+                        </div>
                     </div>
                 </div>
-            </div>
-        <% }) %>
+            <% }) %>
+        <% }else{ %>
+            <div class="col text-center">No Listings Found</div>
+        <% } %>
     </div>
 </div>
 </body>
