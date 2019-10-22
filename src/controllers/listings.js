@@ -38,5 +38,17 @@ router.post('/create', middleware.signInRequired, async function(request, respon
     response.redirect('/my/listings/');
 });
 
+// Render a detailed view of a listing
+router.get('/:id', async function(request, response){
+    const listing_id = request.params.id;
+    const data = await db.oneOrNone('SELECT * FROM listings where id = $1', [listing_id]);
+    if(data) {
+        response.render('listings/detail.ejs', { listing: data });
+    }
+    else{
+        response.redirect('/listings/');
+    }
+});
+
 
 module.exports = router;
