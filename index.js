@@ -15,7 +15,8 @@ const getCurrentUser = async function(request, response, next){
                 'FROM user_access_tokens ' +
                 'INNER JOIN user_accounts ' +
                 'ON user_access_tokens.user_id = user_accounts.id ' +
-                'WHERE user_access_tokens.value = $1',
+                'WHERE user_access_tokens.expires_at >= now() ' +
+                '  AND user_access_tokens.value = $1',
                 [access_token]
             );
         }
