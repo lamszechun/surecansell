@@ -3,7 +3,7 @@ const signInRequired = async function (request, response, next) {
         next();
     }
     else{
-        response.redirect('/sign-up/');
+        response.redirect('/login/');
     }
 };
 
