@@ -7,6 +7,18 @@
     <body>
         <%- include('../navbar'); %>
         <div class="container">
+`            <br />
+            <div class="row">
+                <div class="col mr-auto">
+                    <h4>Listings</h4>
+                </div>
+                <div class="col text-right">
+                    <a href="/listings/create/">
+                        <button class="btn btn-primary btn-sm">Create Listing</button>
+                    </a>
+                </div>
+            </div>
+            <hr>
             <div class="row">
                 <% listings.forEach((listing) => { %>
                         <div class="col col-sm-3">
