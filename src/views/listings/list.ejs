@@ -12,11 +12,13 @@
                 <div class="col mr-auto">
                     <h4>Listings</h4>
                 </div>
-                <div class="col text-right">
-                    <a href="/listings/create/">
-                        <button class="btn btn-primary btn-sm">Create Listing</button>
-                    </a>
-                </div>
+                <% if(user){ %>
+                    <div class="col text-right">
+                        <a href="/listings/create/">
+                            <button class="btn btn-primary btn-sm">Create Listing</button>
+                        </a>
+                    </div>
+                <% } %>
             </div>
             <hr>
             <div class="row">
