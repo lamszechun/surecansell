@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Listing Reviews</title>
+        <%- include('../header'); -%>
+    </head>
+    <body>
+        <div>Listings Review:</div>
+        <div class="container">
+            <div class="row">
+                <% listing_reviews.forEach((review) => { %>
+                        <div class="col">
+                            <div class="card">
+                                <div class="card-body">
+
+                                    <p>Review ID: <%= review.id %></p>
+                                    <p>Time: <%= review.reviewed_at %></p>
+                                    <p>Rating: <%= review.rating %></p>
+                                    <p>Review Text: <%= review.message %></p>
+
+                                </div>
+                            </div>
+                        </div>
+                <% }) %>
+            </div>
+        </div>
+    </body>
+</html>
