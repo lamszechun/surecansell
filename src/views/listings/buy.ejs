@@ -1,2 +1,34 @@
 <!DOCTYPE html>
-<!--TODO: show a "checkout page" of the listing-->
+<!--TODO: show a "checkout page" of the listing
+    Not sure if create a new purchases Table or how to list down listings for purchases
+-->
+
+<html>
+    <head>
+        <title>Checkout/Purchase Cart</title>
+        <%- include('../header'); -%>
+    </head>
+    <body>
+        <%- include('../navbar'); %>
+
+
+        <% if(  PURCHASES > 0   ){ %>
+            <% purchases.forEach((purchase) => { %>
+                <div class="col col-sm-3">
+                    <div class="card">
+                        <div class="card-body">
+                            
+                        </div>
+                    </div>
+
+                </div>
+                //Need to Add Subtotal of goods to be purchased
+            <% }) %>
+        <% }else{ %>
+            <div class="col text-center">No Listings are added to the Purchase Cart </div>
+        <% } %>
+
+
+
+    </body>
+</html>
