@@ -1,41 +1,53 @@
 const express = require('express');
 const db = require('../../db');
 let router = express.Router();
+//TODO -- SEARCH PORTION NEEDS WORK
+
 
 // URL: /listing_reviews/
 router.get('/', async function(request, response){
     response.redirect('/listing_reviews/');
 });
 
-//To create a listing review
+//Render a listing review creation page
 // POINT TO NOTE - Not Sure what to put in the parameters after the .get instead of /listing reviews.
 router.get('/listing_reviews', async function(request, response){
     response.render('listing_reviews/create.ejs');
 });
 
 
-//Post listing Review. 
-// POINT TO NOTE - Not sure about the review_id portion
-router.post('/listing_reviews', async function(request, response){
-    const data = await request.body;
+//SEARCH PORTION
 
-    const listing_id = data['listing_id'];
-    const user_id = data['user_id'];
-    const review_time = data['review_time'];
-    const rating = data['rating'];
-    const review_text = data['review_text'];
-
-    const user_create_result = await db.one(
-        'INSERT INTO listing_reviews' +
-        '(listing_id, user_id, review_time, rating, review_text)' +
-        'VALUES(01,02,03:00,4,$5)' +
-        'RETURNING review_id',
-        [listing_id, user_id, review_time, rating.toString()]
+//Search For Listing Reviews Based on User ID
+router.get('/listing_reviews', async function(request, response){
+    const data = await db.any(
+        'SELECT * FROM listings_review lr' +
+        'WHERE user_id = $1,
+        [response.locals.user['id']]
     );
-
-    console.log(user_create_result);
-    response.redirect('/listing_reviews/');
-
+    response.render('my/listing_reviews.ejs', { listing_reviews: data });
 });
+
+
+//Search For Listing Reviews Based on Listing ID
+router.get('/listing_reviews', async function(request, response){
+    const data = await db.any(
+        'SELECT * FROM listings_review ' +
+        'WHERE listing_id = $1',
+        [response.locals.user['id']]
+    );
+    response.render('my/listing_reviews.ejs', { listing_reviews: data });
+});
+
+//Search For Listing Reviews Based on Review ID
+router.get('/listing_reviews', async function(request, response){
+    const data = await db.any(
+        'SELECT * FROM listings_review ' +
+        'WHERE id = $1',
+        [response.locals.user['id']]
+    );
+    response.render('my/listing_reviews.ejs', { listing_reviews: data });
+});
+
 
 module.exports = router;
