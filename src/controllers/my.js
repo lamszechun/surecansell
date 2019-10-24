@@ -12,7 +12,7 @@ router.get('/listings', middleware.signInRequired, async function(request, respo
     const data = await db.any(
         'SELECT * FROM listings ' +
         'WHERE lister_id = $1',
-        [response.locals.user_id]
+        [response.locals.user['id']]
     );
     response.render('my/listings.ejs', { listings: data });
 });

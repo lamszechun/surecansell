@@ -5,20 +5,36 @@
         <%- include('../header'); -%>
     </head>
     <body>
-        <div>Listings:</div>
+        <%- include('../navbar'); %>
         <div class="container">
+            <br />
+            <div class="row">
+                <div class="col mr-auto">
+                    <h4>Listings</h4>
+                </div>
+                <% if(user){ %>
+                    <div class="col text-right">
+                        <a href="/listings/create/">
+                            <button class="btn btn-primary btn-sm">Create Listing</button>
+                        </a>
+                    </div>
+                <% } %>
+            </div>
+            <hr>
             <div class="row">
                 <% listings.forEach((listing) => { %>
                         <div class="col col-sm-3">
-                            <div class="card">
-                                <div class="card-body">
-                                    <img class="img-thumbnail" src="https://placekitten.com/g/200/200" alt="kitty" />
-                                    <p>ID: <%= listing.id %></p>
-                                    <p>Title: <%= listing.title %></p>
-                                    <p>Description: <%= listing.description %></p>
-                                    <p>Seller: <%= listing.lister_id %></p>
+                            <a href="/listings/<%= listing.id %>/">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <img class="img-thumbnail" src="https://placekitten.com/g/200/200" alt="kitty" />
+                                        <p class="card-text">ID: <%= listing.id %></p>
+                                        <p>Title: <%= listing.title %></p>
+                                        <p>Description: <%= listing.description %></p>
+                                        <p>Seller: <%= listing.lister_id %></p>
+                                    </div>
                                 </div>
-                            </div>
+                            </a>
                         </div>
                 <% }) %>
             </div>

@@ -1,7 +1,7 @@
 const express = require('express');
 
 const db = require('../../db');
-const middleware = require('../middleware');
+const { signInRequired } = require('../middleware');
 
 let router = express.Router();
 
@@ -14,12 +14,12 @@ router.get('/', async function(request, response){
 });
 
 // Render our Listings Creation page
-router.get('/create', middleware.signInRequired, async function(request, response){
+router.get('/create', signInRequired, async function(request, response){
     response.render('listings/create.ejs');
 });
 
 // Use the input from the form to create a new listing
-router.post('/create', middleware.signInRequired, async function(request, response){
+router.post('/create', signInRequired, async function(request, response){
     const data = request.body;
 
     const title = data['title'];
@@ -32,10 +32,69 @@ router.post('/create', middleware.signInRequired, async function(request, respon
         '(title, description, price_in_cents, condition, lister_id)' +
         'VALUES($1,$2,$3,$4,$5)' +
         'RETURNING id',
-        [title, description, price_in_cents, condition, response.locals.user_id]
+        [title, description, price_in_cents, condition, response.locals.user['id']]
     );
 
     response.redirect('/my/listings/');
+});
+
+// Render a detailed view of a listing
+router.get('/:id', async function(request, response){
+    const listing_id = parseInt(request.params.id);
+
+    if(listing_id){
+        const data = await db.oneOrNone('SELECT * FROM listings where id = $1', [listing_id]);
+
+        if(data) {
+            response.render('listings/detail.ejs', { listing: data });
+        }
+        else{
+            response.redirect('/listings/');
+        }
+    }
+    else {
+        response.redirect('/listings/');
+    }
+});
+
+
+// Bookmark Listing
+router.post('/:id/bookmark', async function(request, response){
+    const listing_id = parseInt(request.params.id);
+
+    if(listing_id){
+        // TODO: db query to add an entry to listing_bookmarks
+        console.log('bookmark added');
+    }
+    else {
+        response.redirect('/listings/');
+    }
+});
+
+// Buy listing - render a "checkout" page
+router.get('/:id/buy',  signInRequired, async function(request, response){
+    const listing_id = parseInt(request.params.id);
+
+    if(listing_id){
+        response.render('listings/buy.ejs');
+    }
+    else{
+        response.redirect('/listings/');
+    }
+});
+
+// Buy Listing - Handle the purchase transaction
+router.post('/:id/buy', signInRequired, async function(request, response){
+    const listing_id = parseInt(request.params.id);
+    const buyer = response.locals.user;
+
+    if(listing_id && buyer){
+        // TODO: db query to add a purchase transaction
+        console.log('user ' + buyer['id'] + ' bought listing ' + listing_id);
+    }
+    else{
+        response.redirect('/listings/');
+    }
 });
 
 

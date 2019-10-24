@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Listings</title>
+        <%- include('../header'); -%>
+    </head>
+    <body>
+        <%- include('../navbar'); %>
+        <div class="container">
+            <br />
+            <h4>Seller Details</h4>
+            <div class="card">
+                <div class="card-body">
+                    <p class="card-text">ID: <%= seller.id %></p>
+                    <p class="card-text">First Name: <%= seller.first_name %></p>
+                    <p class="card-text">Last Name: <%= seller.last_name %></p>
+                    <p class="card-text">Phone: <%= seller.phone_number %></p>
+                    <p class="card-text">Email: <%= seller.email %></p>
+                </div>
+            </div>
+            <hr>
+            <h4>Listings</h4>
+            <div class="row">
+                <% listings.forEach((listing) => { %>
+                    <div class="col col-sm-3">
+                        <a href="/listings/<%= listing.id %>/">
+                            <div class="card">
+                                <div class="card-body">
+                                    <img class="img-thumbnail" src="https://placekitten.com/g/200/200" alt="kitty" />
+                                    <p class="card-text">ID: <%= listing.id %></p>
+                                    <p>Title: <%= listing.title %></p>
+                                    <p>Description: <%= listing.description %></p>
+                                    <p>Seller: <%= listing.lister_id %></p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                <% }) %>
+            </div>
+        </div>
+    </body>
+</html>
