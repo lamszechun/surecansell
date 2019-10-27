@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>New Comment</title>
+    <%- include('../header'); -%>
+</head>
+<body>
+<%- include('../navbar'); %>
+    <div>Create New Comment:</div>
+
+    <div class="container">
+        <br>
+        <div class="row">
+            <div class="col col-md-10 offset-md-1 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4">
+                <div class="card">
+                    <div class="card-body">
+                        <form method="post" class="needs-validation">
+
+                            <div class="form-group">
+                                <label for="commented_at">Time</label>
+                                <input type="time" class="form-control" id="commented_at" name="commented_at" required />
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="comment">Comment</label>
+                                <input type="text" maxlength = "256" class="form-control" id="comment" name="comment" required />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="user_id">User ID</label>
+                                <input type="text" class="form-control" id="user_id" name="user_id" required />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="listing_id">Listing ID</label>
+                                <input type="text" class="form-control" id="listing_id" name="listing_id" required />
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+</body>
+</html>
