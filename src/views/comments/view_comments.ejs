@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>View Comments</title>
+    <%- include('../header'); -%>
+</head>
+<body>
+<%- include('../navbar'); %>
+    <div>View Comments:</div>
+
+    <div class="container">
+        <div class="row">
+            <% listing_comment.forEach((comment) => { %>
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-body">
+
+                                <p>Comment ID: <%= comment.id %></p>
+                                <p>Time: <%= comment.commented_at %></p>
+                                <p>Comment: <%= comment.comment %></p>
+                                <p>User ID: <%= comment.user_id %></p>
+                                <p>Listing ID: <%= comment.listing_id %></p>
+
+                            </div>
+                        </div>
+                    </div>
+            <% }) %>
+        </div>
+    </div>
+    
+
+</body>
+</html>

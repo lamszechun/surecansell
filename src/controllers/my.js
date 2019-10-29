@@ -23,4 +23,65 @@ router.get('*', async function(request, response){
 });
 
 
+// LISTING REVIEWS PORTION
+
+// TODO -- reviews portion not sure about the DB queries
+
+//Post listing Review -- NOT SURE about the id portion
+
+router.post('/listing_reviews', middleware.signInRequired, async function(request, response){
+    const data = await request.body;
+
+    const listing_id = data['listing_id'];
+    const user_id = data['user_id'];
+    const review_time = data['review_time'];
+    const rating = data['rating'];
+    const review_text = data['review_text'];
+
+    const user_create_result = await db.one(
+        'INSERT INTO listing_reviews' +
+        '(listing_id, user_id, review_time, rating, review_text)' +
+        'VALUES(01,02,03:00,4,$5)' +
+        'RETURNING id',
+        [listing_id, user_id, review_time, rating.toString()]
+    );
+
+    console.log(user_create_result);
+    response.redirect('/listing_reviews/');
+
+});
+
+// Get all the reviews WRITTEN BY the logged in user.
+router.get('/listing_reviews', middleware.signInRequired, async function(request, response){
+    const data = await db.any(
+        'SELECT * FROM listings_review ' +
+        'WHERE user_id = $1',
+        [response.locals.user['id']]
+    );
+    response.render('my/listing_reviews.ejs', { listing_reviews: data });
+});
+
+
+// Get all the reviews ABOUT the logged in user
+router.get('/listing_reviews', middleware.signInRequired, async function(request, response){
+    const 
+
+    const data = await db.any(
+        'SELECT * FROM listings_review lr, listings l' +
+        'WHERE lr.listing_id = l.id AND l.lister_id = $1',
+        [response.locals.user['id']]
+    );
+    response.render('my/listing_reviews.ejs', { listing_reviews: data });
+});
+
+
+// Redirect to listings review page
+router.get('*', async function(request, response){
+    response.redirect('/listing_reviews/listing_reviews.ejs');
+});
+
+
+
+
+
 module.exports = router;
