@@ -64,11 +64,10 @@ router.get('/listing_reviews', middleware.signInRequired, async function(request
 
 // Get all the reviews ABOUT the logged in user
 router.get('/listing_reviews', middleware.signInRequired, async function(request, response){
-    const 
-
     const data = await db.any(
-        'SELECT * FROM listings_review lr, listings l' +
-        'WHERE lr.listing_id = l.id AND l.lister_id = $1',
+        'SELECT * FROM listings_review, listings ' +
+        'WHERE listings_review.listing_id = listings.id ' +
+        'AND listings.lister_id = $1',
         [response.locals.user['id']]
     );
     response.render('my/listing_reviews.ejs', { listing_reviews: data });
