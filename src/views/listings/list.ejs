@@ -23,19 +23,18 @@
             <hr>
             <div class="row">
                 <% listings.forEach((listing) => { %>
-                        <div class="col col-sm-3">
-                            <a href="/listings/<%= listing.id %>/">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <img class="img-thumbnail" src="https://placekitten.com/g/200/200" alt="kitty" />
-                                        <p class="card-text">ID: <%= listing.id %></p>
-                                        <p>Title: <%= listing.title %></p>
-                                        <p>Description: <%= listing.description %></p>
-                                        <p>Seller: <%= listing.lister_id %></p>
-                                    </div>
-                                </div>
-                            </a>
+                    <div class="col col-sm-3">
+                        <div class="card">
+                            <img class="img-fluid" src="https://placekitten.com/g/250/250" alt="kitty" />
+                            <div class="card-body">
+                                <h5 class="card-title"><%= listing.title %></h5>
+                                <p>Sold by: <%= listing.lister_id %></p>
+                                <p>$ <%= listing.price_in_cents/100 %>.<%= (listing.price_in_cents%100).toString().padStart(2, '0') %></p>
+                                <a class="btn btn-block btn-info" href="/listings/<%= listing.id %>/">View</a>
+                                <a class="btn btn-block btn-primary" href="/listings/<%= listing.id %>/">Buy Now!</a>
+                            </div>
                         </div>
+                    </div>
                 <% }) %>
             </div>
         </div>
