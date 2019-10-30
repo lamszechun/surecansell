@@ -26,6 +26,11 @@ router.get('/', function(request, response){
     response.redirect('/listings/');
 });
 
+// 404 error page
+router.get('/404', function(request, response){
+    response.render('homepage/404.ejs');
+});
+
 
 // Login - render page
 router.get('/login', async function(request, response){

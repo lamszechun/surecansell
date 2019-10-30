@@ -6,7 +6,7 @@ VALUES (
         '+1 234 5678 90',
         'john.smith@gmail.com',
         'john_smith',
-        'nope_no_password'
+        '$2b$10$xiS.4vNwMnb6CrPiztOqx.sEqSIx/l6KNJx4T2IokiRRQvFqFTgDa'
 );
 
 INSERT INTO user_accounts
@@ -17,5 +17,5 @@ VALUES (
         '+2 783 4820',
         'alex.bjorkson@gmail.com',
         'alex_b',
-        'also_no_password'
+        '$2b$10$AxoCHEKQqOttpsvZ5HbwVudp/jZVZMUuFzOMcgUo4NTcyJ9/vxXQW'
 );

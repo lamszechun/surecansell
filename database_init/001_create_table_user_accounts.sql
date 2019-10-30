@@ -5,5 +5,6 @@ CREATE TABLE user_accounts(
     phone_number VARCHAR(32),
     email VARCHAR(255),
     username VARCHAR(255),
-    encrypted_password VARCHAR(255)
+    encrypted_password VARCHAR(255),
+    is_admin BOOLEAN DEFAULT FALSE
 );
