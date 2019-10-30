@@ -1,34 +1,37 @@
 <!DOCTYPE html>
-<!--TODO: show a "checkout page" of the listing
-    Not sure if create a new purchases Table or how to list down listings for purchases
--->
-
 <html>
-    <head>
-        <title>Checkout/Purchase Cart</title>
-        <%- include('../header'); -%>
-    </head>
-    <body>
-        <%- include('../navbar'); %>
-
-
-        <% if(  PURCHASES > 0   ){ %>
-            <% purchases.forEach((purchase) => { %>
-                <div class="col col-sm-3">
-                    <div class="card">
-                        <div class="card-body">
-                            
-                        </div>
+<head>
+    <title>Buy: <%= listing.title %></title>
+    <%- include('../header'); -%>
+</head>
+<body>
+<%- include('../navbar'); %>
+<div class="container">
+    <div class="row">
+        <div class="col col-md-10 offset-md-1 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="text-center">
+                        <img class="img-fluid" src="https://placekitten.com/g/250/250" alt="kitty" />
                     </div>
-
+                    <hr />
+                    <h5>
+                        <span class="align-middle"><%= listing.title %></span>
+                        <% if(listing.condition === 'new'){ %>
+                            <span class="badge badge-success">NEW!</span>
+                        <% } else if(listing.condition === 'used'){ %>
+                            <span class="badge badge-secondary">used</span>
+                        <% } %>
+                    </h5>
+                    <p><%= listing.description %></p>
+                    <p>$ <%= listing.price_in_cents/100 %>.<%= (listing.price_in_cents%100).toString().padStart(2, '0') %></p>
+                    <form method="post">
+                        <button type="submit" class="btn btn-block btn-primary">Buy</button>
+                    </form>
                 </div>
-                //Need to Add Subtotal of goods to be purchased
-            <% }) %>
-        <% }else{ %>
-            <div class="col text-center">No Listings are added to the Purchase Cart </div>
-        <% } %>
-
-
-
-    </body>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
 </html>
