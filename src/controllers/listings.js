@@ -28,9 +28,9 @@ router.post('/create', signInRequired, async function(request, response){
     const condition = data['condition'];
 
     const result = await db.one(
-        'INSERT INTO listings' +
-        '(title, description, price_in_cents, condition, lister_id)' +
-        'VALUES($1,$2,$3,$4,$5)' +
+        'INSERT INTO listings ' +
+        '(title, description, price_in_cents, condition, lister_id) ' +
+        'VALUES($1,$2,$3,$4,$5) ' +
         'RETURNING id',
         [title, description, price_in_cents, condition, response.locals.user['id']]
     );
@@ -43,7 +43,10 @@ router.get('/:id', async function(request, response){
     const listing_id = parseInt(request.params.id);
 
     if(listing_id){
-        const data = await db.oneOrNone('SELECT * FROM listings where id = $1', [listing_id]);
+        const data = await db.oneOrNone(
+            'SELECT * FROM listings where id = $1',
+            [listing_id]
+        );
 
         if(data) {
             response.render('listings/detail.ejs', { listing: data });
@@ -76,7 +79,10 @@ router.get('/:id/buy',  signInRequired, async function(request, response){
     const listing_id = parseInt(request.params.id);
 
     if(listing_id){
-        const data = await db.oneOrNone('SELECT * FROM listings where id = $1', [listing_id]);
+        const data = await db.oneOrNone(
+            'SELECT * FROM listings where id = $1',
+            [listing_id]
+        );
 
         if(data) {
             response.render('listings/buy.ejs', { listing: data });
@@ -96,8 +102,25 @@ router.post('/:id/buy', signInRequired, async function(request, response){
     const buyer = response.locals.user;
 
     if(listing_id && buyer){
-        // TODO: db query to add a purchase transaction
-        console.log('user ' + buyer['id'] + ' bought listing ' + listing_id);
+        const listing = await db.oneOrNone(
+            'SELECT price_in_cents, lister_id ' +
+            'FROM listings ' +
+            'WHERE id = $1',
+            [listing_id]
+        );
+        if(listing) {
+            const data = await db.oneOrNone(
+                'INSERT INTO purchase_transactions ' +
+                '(price_in_cents, listing_id, seller_id, buyer_id) ' +
+                'VALUES($1, $2, $3, $4) ' +
+                'RETURNING id',
+                [listing.price_in_cents, listing_id, listing.lister_id, response.locals.user['id']]
+            );
+            response.redirect('/my/listings/');
+        }
+        else{
+            response.redirect('/500/');
+        }
     }
     else{
         response.redirect('/listings/');
