@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>500: Uh Oh</title>
+    <%- include('../header'); -%>
+</head>
+<body>
+<%- include('../navbar'); %>
+<div class="container">
+    <br>
+    <div class="jumbotron">
+        <h1>Uh Oh</h1>
+        <p class="lead">Something went wrong</p>
+        <button class="btn btn-primary" onclick="goBack()">Go Back</button>
+    </div>
+</div>
+</body>
+<footer>
+    <script>
+        function goBack(){
+            window.history.back();
+        }
+    </script>
+</footer>
+</html>
