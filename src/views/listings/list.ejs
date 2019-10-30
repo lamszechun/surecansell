@@ -31,7 +31,7 @@
                                 <p>Sold by: <%= listing.lister_id %></p>
                                 <p>$ <%= listing.price_in_cents/100 %>.<%= (listing.price_in_cents%100).toString().padStart(2, '0') %></p>
                                 <a class="btn btn-block btn-info" href="/listings/<%= listing.id %>/">View</a>
-                                <a class="btn btn-block btn-primary" href="/listings/<%= listing.id %>/">Buy Now!</a>
+                                <a class="btn btn-block btn-primary" href="/listings/<%= listing.id %>/buy/">Buy Now!</a>
                             </div>
                         </div>
                     </div>
