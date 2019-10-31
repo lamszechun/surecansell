@@ -9,7 +9,12 @@
 <div class="container">
     <div class="row">
         <div class="col col-md-10 offset-md-1 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4">
-            <div class="card">
+            <% if(message){ %>
+                <div class="alert alert-success" role="alert">
+                    <%= message %>
+                </div>
+            <% } %>
+            <div class="card mb-2">
                 <div class="card-body">
                     <% if(purchase.image_file_path){ %>
                         <img class="img-fluid" src="<%= purchase.image_file_path %>" alt="loading..." />
@@ -23,6 +28,7 @@
                     <p>$ <%= purchase.price_in_cents/100 %>.<%= (purchase.price_in_cents%100).toString().padStart(2, '0') %></p>
                 </div>
             </div>
+            <a class="btn btn-primary btn-block" href="/my/purchases">Back to Purchase History</a>
         </div>
     </div>
 </div>

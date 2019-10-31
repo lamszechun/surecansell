@@ -38,6 +38,12 @@ router.get('/purchases', signInRequired, async function(request, response){
 // Single Purchase
 router.get('/purchases/:id', signInRequired, async function(request, response){
     const purchase_id = parseInt(request.params.id);
+    const buy_success_message = request.cookies.message;
+    let message = null;
+    if(buy_success_message){
+        message = buy_success_message;
+        response.clearCookie('message');
+    }
 
     if(purchase_id){
         const data = await db.oneOrNone(
@@ -55,7 +61,7 @@ router.get('/purchases/:id', signInRequired, async function(request, response){
             [purchase_id, response.locals.user['id']]
         );
         if(data){
-            response.render('my/purchases_detail.ejs', { purchase: data });
+            response.render('my/purchases_detail.ejs', { purchase: data, message: message });
         }
         else{
             response.redirect('/my/purchases/');

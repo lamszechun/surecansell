@@ -95,6 +95,7 @@ router.post('/:id/buy', signInRequired, async function(request, response){
                 'RETURNING id',
                 [listing.price_in_cents, listing_id, listing.lister_id, response.locals.user['id']]
             );
+            response.cookie('message', 'Purchase Successful!');
             response.redirect('/my/purchases/' + data['id'] + '/');
         }
         else{
