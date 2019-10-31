@@ -74,27 +74,6 @@ router.post('/:id/bookmark', async function(request, response){
     }
 });
 
-// Buy listing - render a "checkout" page
-router.get('/:id/buy',  signInRequired, async function(request, response){
-    const listing_id = parseInt(request.params.id);
-
-    if(listing_id){
-        const data = await db.oneOrNone(
-            'SELECT * FROM listings where id = $1',
-            [listing_id]
-        );
-
-        if(data) {
-            response.render('listings/buy.ejs', { listing: data });
-        }
-        else{
-            response.redirect('/listings/');
-        }
-    }
-    else{
-        response.redirect('/listings/');
-    }
-});
 
 // Buy Listing - Handle the purchase transaction
 router.post('/:id/buy', signInRequired, async function(request, response){
