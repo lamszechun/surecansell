@@ -26,7 +26,7 @@ router.get('/listing_reviews', async function(request, response){
     if(user_id){
         const data = await db.any(
             'SELECT * FROM listings_review' +
-            'WHERE user_id = $1,
+            'WHERE user_id = $1',
             [response.locals.user['id']]
         );
         
