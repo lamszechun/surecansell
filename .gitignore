@@ -25,6 +25,9 @@ package-lock.json
 *.log
 *.gz
 
+# public folder
+public
+
 
 # Coveralls
 coverage
