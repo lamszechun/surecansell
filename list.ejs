@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chats</title>
+    <%- include('../header'); -%>
+</head>
+<body>
+<div>View Various Chat Conversation:</div>
+<!-- Display conversation details of the specific conversation-->
+    <div class="container">
+        <div class="row">
+            <% chat_conversations.forEach((conversation) => { %>
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-body">
+
+                                <p>Chat Conversation ID: <%= conversation.id %></p>
+                                <p>Listing ID: <%= comment.listing_id %></p>
+                                <p>Seller ID: <%= comment.seller_id %></p>
+                                <p>Buyer ID: <%= comment.seller_id %></p>
+                            </div>
+                        </div>
+                    </div>
+            }) %>
+            <!-- Not sure if line 26 is correct-->
+        </div>
+    </div>
+</body>
+</html>
