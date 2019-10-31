@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Searching Listings Bookmarks</title>
+        <%- include('../header'); -%>
+    </head>
+    <body>
+        
+        <div>Searching Listings Bookmarks:</div>
+        <div class="container">
+                <br>
+                <div class="row">
+                    <div class="col col-md-10 offset-md-1 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <form method="post" class="needs-validation">
+
+                                    <div class="form-group">
+                                        <label for="listing_id">Listing Bookmark ID</label>
+                                        <input type="text" class="form-control" id="id" name="id" required />
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="review_time">Listing ID</label>
+                                        <input type="text" class="form-control" id="listing_id" name="listing_id" required />
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="user_id">User ID</label>
+                                        <input type="text" class="form-control" id="user_id" name="user_id" required />
+                                    </div>
+
+                                    <button type="submit" class="btn btn-primary">Search</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+        
+        
+    </body>
+</html>
