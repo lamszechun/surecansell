@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Purchase History</title>
+    <%- include('../header'); -%>
+</head>
+<body>
+<%- include('../navbar'); %>
+<div class="container">
+    <div class="row">
+        <div class="col mr-auto">
+            <h4>My Purchases</h4>
+        </div>
+    </div>
+    <hr/>
+    <div>
+        <% if(purchases && purchases.length > 0){ %>
+            <% purchases.forEach((purchase) => { %>
+                <div class="card">
+                    <div class="row no-gutters">
+                        <div class="col-3">
+                            <% if(purchase.image_file_path){ %>
+                                <img class="img-fluid" src="<%= purchase.image_file_path %>" alt="loading..." />
+                            <% }else{ %>
+                                <img class="img-thumbnail" src="/static/images/no_image.png" alt="no image" />
+                            <% } %>
+                        </div>
+                        <div class="col">
+                            <div class="card-body">
+                                <h5 class="card-title"><%= purchase.title %></h5>
+                                <h6 class="card-subtitle text-muted font-italic"><%= purchase.purchased_at.toLocaleString('en', { day: "numeric", month: "long", year: "numeric", hour: "numeric", minute: "2-digit", second: "2-digit" }) %></h6>
+                                <br />
+                                <a class="btn btn-info" href="/my/purchases/<%= purchase.transaction_id %>/">View Transaction</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br />
+            <% }) %>
+        <% }else{ %>
+            <div class="col text-center">No Purchase History</div>
+        <% } %>
+    </div>
+</div>
+</body>
+</html>

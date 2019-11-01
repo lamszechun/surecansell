@@ -22,6 +22,8 @@ services:
     ports:
       - "3000:3000"
     volumes:
+      - ./public:/app/public
       - ./src:/app/src
+      - ./static:/app/static
     depends_on:
       - wait

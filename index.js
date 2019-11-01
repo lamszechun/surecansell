@@ -1,3 +1,4 @@
+const path = require('path');
 const express = require('express');
 const cookie_parser = require('cookie-parser');
 const routes = require('./src/routes');
@@ -35,6 +36,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookie_parser());
 app.use(getCurrentUser);
+app.use('/static', express.static(path.join(__dirname, 'static')));
+app.use('/public', express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 
 app.listen(3000, () => console.log('Server running on port 3000...'));
