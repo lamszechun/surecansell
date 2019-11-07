@@ -21,12 +21,12 @@ router.get('/analytics', adminRequired, async function(request, response){
 // Admin Listings Page
 router.get('/listings', adminRequired, async function(request, response){
     const data = await db.query(
-        "SELECT listings.*," +
+        "SELECT listings.*, " +
         "       user_accounts.first_name || ' ' || user_accounts.last_name AS seller_name " +
         "FROM listings " +
         "INNER JOIN user_accounts " +
         "ON listings.lister_id = user_accounts.id " +
-        "ORDER BY listings.id DESC",
+        "ORDER BY listings.listed_at DESC",
         []
     );
     response.render('admin/listings.ejs', { listings: data });

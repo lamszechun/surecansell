@@ -9,7 +9,15 @@ let router = express.Router();
 
 // Get all our listings
 router.get('/', async function(request, response){
-    const data = await db.query('SELECT * FROM listings', []);
+    const data = await db.query(
+        "SELECT listings.*, " +
+        "       user_accounts.first_name || ' ' || user_accounts.last_name AS seller_name " +
+        "FROM listings " +
+        "INNER JOIN user_accounts " +
+        "ON listings.lister_id = user_accounts.id " +
+        "ORDER BY listings.id DESC",
+        []
+    );
     response.render('listings/list.ejs', { listings: data });
 });
 

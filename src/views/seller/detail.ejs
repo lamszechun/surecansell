@@ -11,9 +11,7 @@
             <h4>Seller Details</h4>
             <div class="card">
                 <div class="card-body">
-                    <p class="card-text">ID: <%= seller.id %></p>
-                    <p class="card-text">First Name: <%= seller.first_name %></p>
-                    <p class="card-text">Last Name: <%= seller.last_name %></p>
+                    <p class="card-text">Name: <%= seller.first_name %> <%= seller.last_name %></p>
                     <p class="card-text">Phone: <%= seller.phone_number %></p>
                     <p class="card-text">Email: <%= seller.email %></p>
                 </div>
@@ -21,21 +19,26 @@
             <hr>
             <h4>Listings</h4>
             <div class="row">
-                <% listings.forEach((listing) => { %>
-                    <div class="col col-sm-3">
-                        <a href="/listings/<%= listing.id %>/">
-                            <div class="card">
+                <% if(listings && listings.length > 0){ %>
+                    <% listings.forEach((listing) => { %>
+                        <div class="col col-sm-3">
+                            <div class="card mb-2">
+                                <% if(listing.image_file_path){ %>
+                                    <img class="img-fluid" src="<%= listing.image_file_path %>" alt="loading..." />
+                                <% }else{ %>
+                                    <img class="img-thumbnail" src="/static/images/no_image.png" alt="no image" />
+                                <% } %>
                                 <div class="card-body">
-                                    <img class="img-thumbnail" src="https://placekitten.com/g/200/200" alt="kitty" />
-                                    <p class="card-text">ID: <%= listing.id %></p>
-                                    <p>Title: <%= listing.title %></p>
-                                    <p>Description: <%= listing.description %></p>
-                                    <p>Seller: <%= listing.lister_id %></p>
+                                    <h5 class="card-title"><%= listing.title %></h5>
+                                    <p>$ <%= listing.price_in_cents/100 %>.<%= (listing.price_in_cents%100).toString().padStart(2, '0') %></p>
+                                    <a class="btn btn-block btn-info" href="/listings/<%= listing.id %>/">View</a>
                                 </div>
                             </div>
-                        </a>
-                    </div>
-                <% }) %>
+                        </div>
+                    <% }) %>
+                <% }else{ %>
+                    <div class="col text-center">No Listings Found</div>
+                <% } %>
             </div>
         </div>
     </body>
