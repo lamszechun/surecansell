@@ -12,7 +12,8 @@ const getCurrentUser = async function(request, response, next){
         if (access_token) {
             response.locals.user = await db.oneOrNone(
                 'SELECT user_accounts.id,' +
-                '       user_accounts.username ' +
+                '       user_accounts.username, ' +
+                '       user_accounts.is_admin ' +
                 'FROM user_access_tokens ' +
                 'INNER JOIN user_accounts ' +
                 'ON user_access_tokens.user_id = user_accounts.id ' +
