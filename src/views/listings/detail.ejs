@@ -27,6 +27,13 @@
                     </h5>
                     <p><%= listing.description %></p>
                     <p>$ <%= listing.price_in_cents/100 %>.<%= (listing.price_in_cents%100).toString().padStart(2, '0') %></p>
+                    <% if(listing.bookmark_id){ %>
+                        <button class="btn btn-block btn-secondary mb-2" disabled >Already Bookmarked!</button>
+                    <% }else{ %>
+                        <form method="post" action="/listings/<%= listing.id %>/bookmark" class="mb-2">
+                            <button type="submit" class="btn btn-block btn-info">Bookmark</button>
+                        </form>
+                    <% } %>
                     <form method="post" action="/listings/<%= listing.id %>/buy">
                         <button type="submit" class="btn btn-block btn-primary">Buy</button>
                     </form>

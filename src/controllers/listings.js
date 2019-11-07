@@ -44,7 +44,12 @@ router.get('/:id', async function(request, response){
 
     if(listing_id){
         const data = await db.oneOrNone(
-            'SELECT * FROM listings where id = $1',
+            'SELECT listings.*,' +
+            '       listing_bookmarks.id AS bookmark_id ' +
+            'FROM listings ' +
+            'LEFT JOIN listing_bookmarks ' +
+            'ON listing_bookmarks.listing_id = listings.id ' +
+            'WHERE listings.id = $1',
             [listing_id]
         );
 
@@ -62,12 +67,18 @@ router.get('/:id', async function(request, response){
 
 
 // Bookmark Listing
-router.post('/:id/bookmark', async function(request, response){
+router.post('/:id/bookmark', signInRequired, async function(request, response){
     const listing_id = parseInt(request.params.id);
 
     if(listing_id){
-        // TODO: db query to add an entry to listing_bookmarks
-        console.log('bookmark added');
+        const result = await db.oneOrNone(
+            'INSERT INTO listing_bookmarks ' +
+            '(listing_id, user_id) ' +
+            'VALUES($1, $2)' +
+            'RETURNING id',
+            [listing_id, response.locals.user['id']]
+        );
+        response.redirect('/my/bookmarks/');
     }
     else {
         response.redirect('/listings/');

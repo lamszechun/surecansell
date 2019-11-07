@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Bookmarks</title>
+    <%- include('../header'); -%>
+</head>
+<body>
+<%- include('../navbar'); %>
+<div class="container">
+    <div class="row">
+        <div class="col mr-auto">
+            <h4>My Bookmarks</h4>
+        </div>
+    </div>
+    <hr/>
+    <div>
+        <% if(bookmarks && bookmarks.length > 0){ %>
+            <% bookmarks.forEach((bookmark) => { %>
+                <div class="card">
+                    <div class="row no-gutters">
+                        <div class="col-3">
+                            <% if(bookmark.image_file_path){ %>
+                                <img class="img-fluid" src="<%= bookmark.image_file_path %>" alt="loading..." />
+                            <% }else{ %>
+                                <img class="img-thumbnail" src="/static/images/no_image.png" alt="no image" />
+                            <% } %>
+                        </div>
+                        <div class="col">
+                            <div class="card-body">
+                                <h5 class="card-title"><%= bookmark.title %></h5>
+                                <p class="card-text"><%= bookmark.description %></p>
+                                <p class="card-text">$ <%= bookmark.price_in_cents/100 %>.<%= (bookmark.price_in_cents%100).toString().padStart(2, '0') %></p>
+                                <hr />
+                                <h6 class="card-subtitle text-muted font-italic">Bookmarked on: <%= bookmark.bookmarked_at.toLocaleString('en', { day: "numeric", month: "long", year: "numeric", hour: "numeric", minute: "2-digit", second: "2-digit", timeZone: "Asia/Singapore" }) %></h6>
+                                <br />
+                                <div class="btn-toolbar">
+                                    <div class="btn-group mr-2">
+                                        <a class="btn btn-info" href="/listings/<%= bookmark.id %>/">View Listing</a>
+                                    </div>
+                                    <div class="btn-group">
+                                        <form method="post" action="/my/bookmarks/<%= bookmark.id %>/remove/">
+                                            <button type="submit" class="btn btn-danger">Remove Bookmark</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br />
+            <% }) %>
+        <% }else{ %>
+            <div class="col text-center">No Purchase History</div>
+        <% } %>
+    </div>
+</div>
+</body>
+</html>
