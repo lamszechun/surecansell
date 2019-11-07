@@ -5,6 +5,49 @@
     <%- include('../header'); -%>
 </head>
 <body>
-TODO: list all the chats here
+<%- include('../navbar'); %>
+<div class="container">
+    <div class="row">
+        <div class="col mr-auto">
+            <h4>Select chat</h4>
+        </div>
+    </div>
+    <hr/>
+    <div>
+        <% if(chats && chats.length > 0){ %>
+            <% chats.forEach((chat) => { %>
+                <div class="card">
+                    <div class="row no-gutters">
+                        <div class="col-3">
+                            <% if(chat.image_file_path){ %>
+                                <img class="img-fluid" src="<%= chat.image_file_path %>" alt="loading..." />
+                            <% }else{ %>
+                                <img class="img-fluid" src="/static/images/no_image.png" alt="no image" />
+                            <% } %>
+                        </div>
+                        <div class="col">
+                            <div class="card-body">
+                                <h4 class="card-title"><%= chat.title %></h4>
+                                <div class="row">
+                                    <div class="col"><hr></div>
+                                    <div class="col-auto text-muted font-italic">Last Message</div>
+                                    <div class="col"><hr></div>
+                                </div>
+                                <h5 class="card-text"><%= chat.sender_name %></h5>
+                                <p class="card-text text-muted"><%= chat.body %></p>
+                                <h6 class="card-subtitle text-muted font-italic small"><%= chat.sent_at.toLocaleString('en', { day: "numeric", month: "long", year: "numeric", hour: "numeric", minute: "2-digit", second: "2-digit", timeZone: "Asia/Singapore"  }) %></h6>
+                                <br />
+                                <a class="btn btn-info" href="/chat/<%= chat.id %>/">View Chat</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br />
+            <% }) %>
+        <% }else{ %>
+            <div class="col text-center">No Chats found</div>
+        <% } %>
+    </div>
+</div>
 </body>
 </html>

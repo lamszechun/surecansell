@@ -32,7 +32,11 @@
         </div>
         <div class="col col-8">
             <div class="card">
-                <div class="card-header">Chatting with: <a href="/seller/<%= listing.lister_id %>/" class="font-italic"><%= seller.first_name %> <%= seller.last_name %></a></div>
+                <% if(user.id === buyer.id){ %>
+                    <div class="card-header">Chatting with: <a href="/seller/<%= seller.id %>/" class="font-italic"><%= seller.first_name %> <%= seller.last_name %></a></div>
+                <% }else{ %>
+                    <div class="card-header">Chatting with: <a href="/seller/<%= buyer.id %>/" class="font-italic"><%= buyer.first_name %> <%= buyer.last_name %></a></div>
+                <% } %>
                 <div class="card-body" style="height: 75vh; overflow: scroll;" id="chat-window">
                     <% if(messages && messages.length > 0){ %>
                         <% messages.forEach((message) => { %>
