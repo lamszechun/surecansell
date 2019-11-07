@@ -127,4 +127,50 @@ router.post('/:id/buy', signInRequired, async function(request, response){
 });
 
 
+// Chat on the listing
+router.post('/:id/chat', signInRequired, async function(request, response){
+    const listing_id = parseInt(request.params.id);
+
+    if(listing_id){
+        const chat = await db.oneOrNone(
+            'SELECT id ' +
+            'FROM chat_conversations ' +
+            'WHERE listing_id = $1 ' +
+            '  AND buyer_id = $2 ' +
+            'LIMIT 1',
+            [listing_id, response.locals.user['id']]
+        );
+
+        if(chat){
+            response.redirect('/chat/' + chat['id'] + '/');
+        }
+        else{
+            const lister = await db.one(
+                'SELECT lister_id ' +
+                'FROM listings ' +
+                'WHERE id = $1',
+                [listing_id]
+            );
+            const data = await db.oneOrNone(
+                'INSERT INTO chat_conversations ' +
+                '(listing_id, seller_id, buyer_id) ' +
+                'VALUES ' +
+                '($1, $2, $3) ' +
+                'RETURNING id',
+                [listing_id, lister['lister_id'], response.locals.user['id']]
+            );
+            if(data){
+                response.redirect('/chat/' + data['id'] + '/');
+            }
+            else{
+                response.redirect('/500/');
+            }
+        }
+    }
+    else{
+        response.redirect('/500/');
+    }
+});
+
+
 module.exports = router;

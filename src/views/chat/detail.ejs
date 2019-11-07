@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Listing: <%= listing.title %></title>
+    <%- include('../header'); -%>
+</head>
+<body>
+<%- include('../navbar'); %>
+<div class="container">
+    <div class="row">
+        <div class="col col-4">
+            <div class="card">
+                <div class="card-body">
+                    <% if(listing.image_file_path){ %>
+                        <img class="img-fluid" src="<%= listing.image_file_path %>" alt="loading..." />
+                    <% }else{ %>
+                        <img class="img-thumbnail" src="/static/images/no_image.png" alt="no image" />
+                    <% } %>
+                    <hr />
+                    <h5>
+                        <span class="align-middle"><%= listing.title %></span>
+                        <% if(listing.condition === 'new'){ %>
+                            <span class="badge badge-success">NEW!</span>
+                        <% } else if(listing.condition === 'used'){ %>
+                            <span class="badge badge-secondary">used</span>
+                        <% } %>
+                    </h5>
+                    <p><%= listing.description %></p>
+                    <p>$ <%= listing.price_in_cents/100 %>.<%= (listing.price_in_cents%100).toString().padStart(2, '0') %></p>
+                </div>
+            </div>
+        </div>
+        <div class="col col-8">
+            <div class="card">
+                <div class="card-header">Chatting with: <a href="/seller/<%= listing.lister_id %>/" class="font-italic"><%= seller.first_name %> <%= seller.last_name %></a></div>
+                <div class="card-body" style="height: 75vh; overflow: scroll;" id="chat-window">
+                    <% if(messages && messages.length > 0){ %>
+                        <% messages.forEach((message) => { %>
+                            <div class="row">
+                                <% if(message.user_id === user.id){ %>
+                                    <div class="col-6"></div>
+                                    <div class="col-6">
+                                        <div class="card text-white bg-primary mb-2">
+                                            <div class="card-body">
+                                                <p class="card-text"><%= message.body %></p>
+                                            </div>
+                                            <div class="card-footer">
+                                                <p class="card-text font-italic text-right small"><%= message.sent_at.toLocaleString('en', { day: "numeric", month: "long", year: "numeric", hour: "numeric", minute: "2-digit", second: "2-digit", timeZone: "Asia/Singapore"  }) %></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <% }else{ %>
+                                    <div class="col-6">
+                                        <div class="card bg-light mb-2">
+                                            <div class="card-body">
+                                                <p class="card-text"><%= message.body %></p>
+                                            </div>
+                                            <div class="card-footer">
+                                                <p class="card-text font-italic text-right small"><%= message.sent_at.toLocaleString('en', { day: "numeric", month: "long", year: "numeric", hour: "numeric", minute: "2-digit", second: "2-digit", timeZone: "Asia/Singapore"  }) %></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6"></div>
+                                <% } %>
+                            </div>
+                        <% }) %>
+                    <% }else{ %>
+                        <p class="card-text text-center">No messages found</p>
+                    <% } %>
+                </div>
+                <div class="card-footer">
+                    <form method="post" action="/chat/<%= conversation.id %>/message" autocomplete="off">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="message" name="message" required />
+                            <div class="input-group-append">
+                                <button type="submit" class="btn btn-primary">Send</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<footer>
+    <script type="application/javascript">
+        let chat_window = document.querySelector('#chat-window');
+        chat_window.scrollTop = chat_window.scrollHeight - chat_window.clientHeight;
+    </script>
+</footer>
+</html>
