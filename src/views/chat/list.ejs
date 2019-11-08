@@ -35,7 +35,9 @@
                                 </div>
                                 <h5 class="card-text"><%= chat.sender_name %></h5>
                                 <p class="card-text text-muted"><%= chat.body %></p>
-                                <h6 class="card-subtitle text-muted font-italic small"><%= chat.sent_at.toLocaleString('en', { day: "numeric", month: "long", year: "numeric", hour: "numeric", minute: "2-digit", second: "2-digit", timeZone: "Asia/Singapore"  }) %></h6>
+                                <% if(chat.sent_at){ %>
+                                 <h6 class="card-subtitle text-muted font-italic small"><%= chat.sent_at.toLocaleString('en', { day: "numeric", month: "long", year: "numeric", hour: "numeric", minute: "2-digit", second: "2-digit", timeZone: "Asia/Singapore"  }) %></h6>
+                                <% } %>
                                 <br />
                                 <a class="btn btn-info" href="/chat/<%= chat.id %>/">View Chat</a>
                             </div>
