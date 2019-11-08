@@ -49,17 +49,31 @@ router.post('/create', signInRequired, async function(request, response){
 // Render a detailed view of a listing
 router.get('/:id', async function(request, response){
     const listing_id = parseInt(request.params.id);
+    const user = response.locals.user;
 
     if(listing_id){
-        const data = await db.oneOrNone(
-            'SELECT listings.*,' +
-            '       listing_bookmarks.id AS bookmark_id ' +
-            'FROM listings ' +
-            'LEFT JOIN listing_bookmarks ' +
-            'ON listing_bookmarks.listing_id = listings.id ' +
-            'WHERE listings.id = $1',
-            [listing_id]
-        );
+        let data = null;
+        if(user){
+            data = await db.oneOrNone(
+                'SELECT listings.*,' +
+                '       listing_bookmarks.id AS bookmark_id ' +
+                'FROM listings ' +
+                'LEFT JOIN listing_bookmarks ' +
+                'ON listing_bookmarks.listing_id = listings.id ' +
+                'AND listing_bookmarks.user_id = $2 ' +
+                'WHERE listings.id = $1',
+                [listing_id, user['id']]
+            );
+        }
+        else{
+            data = await db.oneOrNone(
+                'SELECT listings.*,' +
+                '       NULL AS bookmark_id ' +
+                'FROM listings ' +
+                'WHERE listings.id = $1',
+                [listing_id]
+            );
+        }
 
         if(data) {
             response.render('listings/detail.ejs', { listing: data });
@@ -169,6 +183,15 @@ router.post('/:id/chat', signInRequired, async function(request, response){
     }
     else{
         response.redirect('/500/');
+    }
+});
+
+
+// Add review for listing
+router.post('/:id/review', signInRequired, async function(request, response){
+    const listing_id = parseInt(request.params.id);
+
+    if(listing_id) {
     }
 });
 
