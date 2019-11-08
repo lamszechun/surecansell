@@ -24,15 +24,15 @@
             <div class="row">
                 <% listings.forEach((listing) => { %>
                     <div class="col col-sm-3">
-                        <div class="card">
+                        <div class="card mb-2">
                             <% if(listing.image_file_path){ %>
                                 <img class="img-fluid" src="<%= listing.image_file_path %>" alt="loading..." />
                             <% }else{ %>
-                                <img class="img-thumbnail" src="/static/images/no_image.png" alt="no image" />
+                                <img class="img-fluid" src="/static/images/no_image.png" alt="no image" />
                             <% } %>
                             <div class="card-body">
                                 <h5 class="card-title"><%= listing.title %></h5>
-                                <p>Sold by: <%= listing.lister_id %></p>
+                                <p>Sold by: <a href="/seller/<%= listing.lister_id %>/" class="font-italic"><%= listing.seller_name %></a></p>
                                 <p>$ <%= listing.price_in_cents/100 %>.<%= (listing.price_in_cents%100).toString().padStart(2, '0') %></p>
                                 <a class="btn btn-block btn-info" href="/listings/<%= listing.id %>/">View</a>
                             </div>

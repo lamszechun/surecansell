@@ -14,7 +14,7 @@
                     <% if(listing.image_file_path){ %>
                         <img class="img-fluid" src="<%= listing.image_file_path %>" alt="loading..." />
                     <% }else{ %>
-                        <img class="img-thumbnail" src="/static/images/no_image.png" alt="no image" />
+                        <img class="img-fluid" src="/static/images/no_image.png" alt="no image" />
                     <% } %>
                     <hr />
                     <h5>
@@ -27,8 +27,23 @@
                     </h5>
                     <p><%= listing.description %></p>
                     <p>$ <%= listing.price_in_cents/100 %>.<%= (listing.price_in_cents%100).toString().padStart(2, '0') %></p>
+                    <% if(listing.bookmark_id){ %>
+                        <button class="btn btn-block btn-secondary mb-2" disabled >Already Bookmarked!</button>
+                    <% }else{ %>
+                        <form method="post" action="/listings/<%= listing.id %>/bookmark" class="mb-2">
+                            <button type="submit" class="btn btn-block btn-info">Bookmark</button>
+                        </form>
+                    <% } %>
                     <form method="post" action="/listings/<%= listing.id %>/buy">
                         <button type="submit" class="btn btn-block btn-primary">Buy</button>
+                    </form>
+                    <div class="row">
+                        <div class="col"><hr></div>
+                        <div class="col-auto">OR</div>
+                        <div class="col"><hr></div>
+                    </div>
+                    <form method="post" action="/listings/<%= listing.id %>/chat">
+                        <button type="submit" class="btn btn-block btn-light">Chat with seller</button>
                     </form>
                 </div>
             </div>

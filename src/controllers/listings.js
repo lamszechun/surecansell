@@ -9,7 +9,15 @@ let router = express.Router();
 
 // Get all our listings
 router.get('/', async function(request, response){
-    const data = await db.query('SELECT * FROM listings', []);
+    const data = await db.query(
+        "SELECT listings.*, " +
+        "       user_accounts.first_name || ' ' || user_accounts.last_name AS seller_name " +
+        "FROM listings " +
+        "INNER JOIN user_accounts " +
+        "ON listings.lister_id = user_accounts.id " +
+        "ORDER BY listings.id DESC",
+        []
+    );
     response.render('listings/list.ejs', { listings: data });
 });
 
@@ -44,7 +52,12 @@ router.get('/:id', async function(request, response){
 
     if(listing_id){
         const data = await db.oneOrNone(
-            'SELECT * FROM listings where id = $1',
+            'SELECT listings.*,' +
+            '       listing_bookmarks.id AS bookmark_id ' +
+            'FROM listings ' +
+            'LEFT JOIN listing_bookmarks ' +
+            'ON listing_bookmarks.listing_id = listings.id ' +
+            'WHERE listings.id = $1',
             [listing_id]
         );
 
@@ -62,12 +75,18 @@ router.get('/:id', async function(request, response){
 
 
 // Bookmark Listing
-router.post('/:id/bookmark', async function(request, response){
+router.post('/:id/bookmark', signInRequired, async function(request, response){
     const listing_id = parseInt(request.params.id);
 
     if(listing_id){
-        // TODO: db query to add an entry to listing_bookmarks
-        console.log('bookmark added');
+        const result = await db.oneOrNone(
+            'INSERT INTO listing_bookmarks ' +
+            '(listing_id, user_id) ' +
+            'VALUES($1, $2)' +
+            'RETURNING id',
+            [listing_id, response.locals.user['id']]
+        );
+        response.redirect('/my/bookmarks/');
     }
     else {
         response.redirect('/listings/');
@@ -104,6 +123,52 @@ router.post('/:id/buy', signInRequired, async function(request, response){
     }
     else{
         response.redirect('/listings/');
+    }
+});
+
+
+// Chat on the listing
+router.post('/:id/chat', signInRequired, async function(request, response){
+    const listing_id = parseInt(request.params.id);
+
+    if(listing_id){
+        const chat = await db.oneOrNone(
+            'SELECT id ' +
+            'FROM chat_conversations ' +
+            'WHERE listing_id = $1 ' +
+            '  AND buyer_id = $2 ' +
+            'LIMIT 1',
+            [listing_id, response.locals.user['id']]
+        );
+
+        if(chat){
+            response.redirect('/chat/' + chat['id'] + '/');
+        }
+        else{
+            const lister = await db.one(
+                'SELECT lister_id ' +
+                'FROM listings ' +
+                'WHERE id = $1',
+                [listing_id]
+            );
+            const data = await db.oneOrNone(
+                'INSERT INTO chat_conversations ' +
+                '(listing_id, seller_id, buyer_id) ' +
+                'VALUES ' +
+                '($1, $2, $3) ' +
+                'RETURNING id',
+                [listing_id, lister['lister_id'], response.locals.user['id']]
+            );
+            if(data){
+                response.redirect('/chat/' + data['id'] + '/');
+            }
+            else{
+                response.redirect('/500/');
+            }
+        }
+    }
+    else{
+        response.redirect('/500/');
     }
 });
 

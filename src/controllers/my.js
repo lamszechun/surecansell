@@ -6,6 +6,40 @@ const { signInRequired } = require('../middleware');
 let router = express.Router();
 
 
+// Get all the listings that the user has bookmarked
+router.get('/bookmarks', signInRequired, async function(request, response){
+    const data = await db.any(
+        'SELECT listings.*, ' +
+        '       listing_bookmarks.bookmarked_at ' +
+        'FROM listing_bookmarks ' +
+        'INNER JOIN listings ' +
+        'ON listings.id = listing_bookmarks.listing_id ' +
+        'WHERE user_id = $1 ' +
+        'ORDER BY bookmarked_at DESC',
+        [response.locals.user['id']]
+    );
+    response.render('my/bookmarks.ejs', { bookmarks: data });
+});
+
+
+// Remove bookmark
+router.post('/bookmarks/:id/remove', signInRequired, async function(request, response){
+    const bookmark_id = parseInt(request.params.id);
+
+    if(bookmark_id){
+        const data = await db.none(
+            'DELETE FROM listing_bookmarks ' +
+            'WHERE id = $1',
+            [bookmark_id]
+        );
+        response.redirect('/my/bookmarks/');
+    }
+    else{
+        response.redirect('/my/bookmarks/');
+    }
+});
+
+
 // Get all the listings for the currently logged in user
 router.get('/listings', signInRequired, async function(request, response){
     const data = await db.any(

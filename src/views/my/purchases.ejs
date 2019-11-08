@@ -28,7 +28,7 @@
                         <div class="col">
                             <div class="card-body">
                                 <h5 class="card-title"><%= purchase.title %></h5>
-                                <h6 class="card-subtitle text-muted font-italic"><%= purchase.purchased_at.toLocaleString('en', { day: "numeric", month: "long", year: "numeric", hour: "numeric", minute: "2-digit", second: "2-digit" }) %></h6>
+                                <h6 class="card-subtitle text-muted font-italic"><%= purchase.purchased_at.toLocaleString('en', { day: "numeric", month: "long", year: "numeric", hour: "numeric", minute: "2-digit", second: "2-digit", timeZone: "Asia/Singapore"  }) %></h6>
                                 <br />
                                 <a class="btn btn-info" href="/my/purchases/<%= purchase.transaction_id %>/">View Transaction</a>
                             </div>

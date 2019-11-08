@@ -42,7 +42,7 @@ router.get('/500', function(request, response){
 // Login - render page
 router.get('/login', async function(request, response){
     if(response.locals.user){
-        response.redirect('/my/listings/');
+        response.redirect('/listings/');
     }
 
     response.render('homepage/login.ejs');
@@ -52,7 +52,7 @@ router.get('/login', async function(request, response){
 // Login - handle form input
 router.post('/login', async function(request, response){
     if(response.locals.user){
-        response.redirect('/my/listings/');
+        response.redirect('/listings/');
     }
 
     const data = await request.body;
@@ -74,7 +74,7 @@ router.post('/login', async function(request, response){
             const token = await createToken(result['id']);
 
             response.cookie('access_token', token);
-            response.redirect('/my/listings/');
+            response.redirect('/listings/');
         }
     }
 

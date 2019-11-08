@@ -60,10 +60,4 @@ router.post('/:id/comment', signInRequired, async function(request, response){
 });
 
 
-// Redirect to default listings page for now
-router.get('*', async function(request, response){
-    response.redirect('/listings');
-});
-
-
 module.exports = router;
