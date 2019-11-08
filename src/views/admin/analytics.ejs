@@ -11,19 +11,29 @@
     </div>
     <div class="col">
         <div class="container">
+            <br />
             <h4> Total Number of Purchases: <%= total_purchases%></h4>
             <br />
-            <h4> Highest Listing amount: <%= max_price %> </h4>
+            <h4> Highest Listing amount: $<%= max_price/100 %>.<%= (max_price%100).toString().padStart(2, '0') %> </h4>
+            <hr />
             <br />
-            <h4> Each Buyer’s Total Spending Amount in descending order</h4>
-            <tbody>
-                <% spending.forEach((spend) => { %>
+            <h5> Each Buyer’s Total Spending Amount in descending order</h5>
+            <table class="table">
+                <thead>
                     <tr>
-                        <td><a href="/listings/<%= spend.buyer_id %>"></a></td>
-                        <td><%= spend.price_sum %></td>
+                        <th>Buyer ID</th>
+                        <th>Price</th>
                     </tr>
-                <% }) %>
-            </tbody>
+                </thead>
+                <tbody>
+                    <% spending.forEach((spend) => { %>
+                        <tr>
+                            <td><%= spend.buyer_id %></td>
+                            <td><%= spend.price_sum %></td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>

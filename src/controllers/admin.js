@@ -14,24 +14,24 @@ router.get('/', adminRequired, async function(request, response){
 
 // Admin Analytics Page
 router.get('/analytics', adminRequired, async function(request, response){
-    const total_purchases = await db.query(
+    const total_purchases = await db.one(
         "SELECT COUNT(*) AS total_count " +
         "FROM purchase_transactions",
         []
     );
 
-    const each_spending = await db.query(
-        "SELECT purchase_transactions.buyer_id, " +
-        "       SUM(purchase_transactions.price_in_cents) AS price_sum " +
-        "FROM purchase_transactions " +
-        "GROUP BY purchase_transactions.buyer_id " +
-        "ORDER BY SUM (purchase_transactions.price_in_cents) DESC",
+    const most_expensive = await db.one(
+        "SELECT MAX(price_in_cents) AS max_price " +
+        "FROM listings",
         []
     );
 
-    const most_expensive = await db.query(
-        "SELECT MAX (listings.price_in_cents) AS max_price " +
-        "FROM listings",
+    const each_spending = await db.query(
+        "SELECT buyer_id, " +
+        "       SUM(price_in_cents) AS price_sum " +
+        "FROM purchase_transactions " +
+        "GROUP BY 1 " +
+        "ORDER BY 2 DESC",
         []
     );
 
@@ -39,8 +39,8 @@ router.get('/analytics', adminRequired, async function(request, response){
         'admin/analytics.ejs',
         {
             total_purchases: total_purchases['total_count'],
-            spending: each_spending,
-            max_price: most_expensive['max_price']
+            max_price: most_expensive['max_price'],
+            spending: each_spending
         }
     );
 });
