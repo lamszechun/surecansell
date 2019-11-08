@@ -15,26 +15,34 @@ router.get('/', adminRequired, async function(request, response){
 // Admin Analytics Page
 router.get('/analytics', adminRequired, async function(request, response){
     const total_purchases = await db.query(
-        "SELECT COUNT(*)" +
+        "SELECT COUNT(*) AS total_count " +
         "FROM purchase_transactions",
         []
     );
 
     const each_spending = await db.query(
-        "SELECT purchase_transactions.buyer_id, SUM (purchase_transactions.price_in_cents)" +
-        "FROM purchase_transactions" +
-        "GROUP BY purchase_transactions.buyer_id" +
+        "SELECT purchase_transactions.buyer_id, " +
+        "       SUM(purchase_transactions.price_in_cents) AS price_sum " +
+        "FROM purchase_transactions " +
+        "GROUP BY purchase_transactions.buyer_id " +
         "ORDER BY SUM (purchase_transactions.price_in_cents) DESC",
         []
     );
 
     const most_expensive = await db.query(
-        "SELECT MAX (listings.price_in_cents)" +
-        "FROM listings l",
+        "SELECT MAX (listings.price_in_cents) AS max_price " +
+        "FROM listings",
         []
     );
 
-    response.render('admin/analytics.ejs', {purchases: total_purchases}, {spending: each_spending}, {expensive: most_expensive});
+    response.render(
+        'admin/analytics.ejs',
+        {
+            total_purchases: total_purchases['total_count'],
+            spending: each_spending,
+            max_price: most_expensive['max_price']
+        }
+    );
 });
 //Purchase Transactions where the buyer and seller have the same last name
 //SELECT p.id
