@@ -11,6 +11,28 @@
     </div>
     <div class="col">
         <div class="container">
+
+            <h4> Total Number of Purchases So far</h4>
+            <% purchases.forEach((purchase) => { %>
+                <%= purchase %>
+            <% }) %>
+
+
+            <h4> Each Buyer’s Total Spending Amount in descending order</h4>
+            <tbody>
+                <% spending.forEach((spend) => { %>
+                    <tr>
+                        <td><a href="/listings/<%= spend.buyer_id %>"></a></td>
+                        <td><%= spend.price_in_cents %></td>
+                    </tr>
+                <% }) %>
+            </tbody>
+
+            <h4> Highest Listing amount </h4>
+            <% expensive.forEach((highest) => { %>
+                <%= highest.price_in_cents %>
+            <% }) %>
+
         </div>
     </div>
 </div>
